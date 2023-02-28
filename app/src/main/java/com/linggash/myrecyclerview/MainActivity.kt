@@ -1,5 +1,6 @@
 package com.linggash.myrecyclerview
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -57,6 +58,9 @@ class MainActivity : AppCompatActivity() {
         rvHeroes.layoutManager = LinearLayoutManager(this)
         val listHeroAdapter = ListHeroAdapter(list) {
             Toast.makeText(this, "Kamu memilih " + it.name, Toast.LENGTH_SHORT).show()
+            val intentToDetail = Intent(this, DetailActivity::class.java)
+            intentToDetail.putExtra("DATA", it)
+            startActivity(intentToDetail)
         }
         rvHeroes.adapter = listHeroAdapter
 //
