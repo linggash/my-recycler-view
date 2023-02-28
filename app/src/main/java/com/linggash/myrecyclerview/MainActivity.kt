@@ -55,17 +55,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRecyclerList() {
         rvHeroes.layoutManager = LinearLayoutManager(this)
-        val listHeroAdapter = ListHeroAdapter(list)
+        val listHeroAdapter = ListHeroAdapter(list) {
+            Toast.makeText(this, "Kamu memilih " + it.name, Toast.LENGTH_SHORT).show()
+        }
         rvHeroes.adapter = listHeroAdapter
-
-        listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Hero) {
-                showSelectedHero(data)
-            }
-        })
+//
+//        listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {       // changed with lambda
+//            override fun onItemClicked(data: Hero) {
+//                showSelectedHero(data)
+//            }
+//        })
     }
 
-    private fun showSelectedHero(hero: Hero) {
-        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()
-    }
+//    private fun showSelectedHero(hero: Hero) {
+//        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()       // changed with lambda
+//    }
 }

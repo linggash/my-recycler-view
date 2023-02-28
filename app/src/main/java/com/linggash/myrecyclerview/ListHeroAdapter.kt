@@ -8,13 +8,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class ListHeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adapter<ListHeroAdapter.ListViewHolder>() {
+class ListHeroAdapter(
+        private val listHero: ArrayList<Hero>,
+        private val onClick: (Hero) -> Unit
+    ) : RecyclerView.Adapter<ListHeroAdapter.ListViewHolder>() {
 
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
+//    private lateinit var onItemClickCallback: OnItemClickCallback
+//
+//    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {       // changed with lambda
+//        this.onItemClickCallback = onItemClickCallback
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_row_hero, parent, false)
@@ -26,20 +29,26 @@ class ListHeroAdapter(private val listHero: ArrayList<Hero>) : RecyclerView.Adap
         holder.imgPhoto.setImageResource(photo)
         holder.tvName.text = name
         holder.tvDescription.text = description
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listHero[holder.adapterPosition])
-        }
+//        holder.itemView.setOnClickListener {
+//            onItemClickCallback.onItemClicked(listHero[holder.adapterPosition])       // changed with lambda
+//        }
+        holder.bind(listHero[holder.adapterPosition])
     }
 
     override fun getItemCount(): Int = listHero.size
 
-    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
         val tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         val tvDescription: TextView = itemView.findViewById(R.id.tv_item_description)
+        fun bind(hero: Hero) {
+            itemView.setOnClickListener {
+                onClick(hero)
+            }
+        }
     }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Hero)
-    }
+//
+//    interface OnItemClickCallback {
+//        fun onItemClicked(data: Hero)       // changed with lambda
+//    }
 }
