@@ -9,17 +9,20 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.linggash.myrecyclerview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var rvHeroes: RecyclerView
+    private lateinit var binding: ActivityMainBinding
+//    private lateinit var rvHeroes: RecyclerView                             // changed with binding
     private val list = ArrayList<Hero>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvHeroes = findViewById(R.id.rv_heroes)
-        rvHeroes.setHasFixedSize(true)
+//        rvHeroes = findViewById(R.id.rv_heroes)                               // changed with binding
+        binding.rvHeroes.setHasFixedSize(true)
 
         list.addAll(getListHeroes())
         showRecyclerList()
@@ -33,10 +36,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_list -> {
-                rvHeroes.layoutManager = LinearLayoutManager(this)
+//                rvHeroes.layoutManager = LinearLayoutManager(this)                // changed with binding
+                binding.rvHeroes.layoutManager = LinearLayoutManager(this)
             }
             R.id.action_grid -> {
-                rvHeroes.layoutManager = GridLayoutManager(this, 2)
+//                rvHeroes.layoutManager = GridLayoutManager(this, 2)               // changed with binding
+                binding.rvHeroes.layoutManager = GridLayoutManager(this, 2)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -55,14 +60,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerList() {
-        rvHeroes.layoutManager = LinearLayoutManager(this)
+//        rvHeroes.layoutManager = LinearLayoutManager(this)                                          // changed with binding
+        binding.rvHeroes.layoutManager = LinearLayoutManager(this)
         val listHeroAdapter = ListHeroAdapter(list) {
             Toast.makeText(this, "Kamu memilih " + it.name, Toast.LENGTH_SHORT).show()
             val intentToDetail = Intent(this, DetailActivity::class.java)
             intentToDetail.putExtra("DATA", it)
             startActivity(intentToDetail)
         }
-        rvHeroes.adapter = listHeroAdapter
+//        rvHeroes.adapter = listHeroAdapter                                                          // changed with binding
+        binding.rvHeroes.adapter = listHeroAdapter
 //
 //        listHeroAdapter.setOnItemClickCallback(object : ListHeroAdapter.OnItemClickCallback {       // changed with lambda
 //            override fun onItemClicked(data: Hero) {
@@ -72,6 +79,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 //    private fun showSelectedHero(hero: Hero) {
-//        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()       // changed with lambda
+//        Toast.makeText(this, "Kamu memilih " + hero.name, Toast.LENGTH_SHORT).show()                // changed with lambda
 //    }
 }
